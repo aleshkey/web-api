@@ -1,0 +1,30 @@
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: books-service
+          uri:  http://localhost:8081
+          predicates:
+            - Path=/books/**
+          filters:
+            - AuthenticationFilter
+
+        - id: library-service
+          uri:  http://localhost:8082
+          predicates:
+            - Path=/library/**
+          filters:
+            - AuthenticationFilter
+
+        - id: auth-service
+          uri:  http://localhost:9000
+          predicates:
+            - Path=/auth/**
+
+  application:
+    name: LIBRARY-GATEWAY
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
